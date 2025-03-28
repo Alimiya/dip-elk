@@ -1,0 +1,65 @@
+version: '3.8'
+services:
+  web1:
+    image: nginx
+    container_name: web1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+  web2:
+    image: nginx
+    container_name: web2
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+  api1:
+    image: node
+    container_name: api1
+    command: node -e "setInterval(() => console.log('API 1 Request received'), 20000)"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+  api2:
+    image: node
+    container_name: api2
+    command: node -e "setInterval(() => console.log('API 2 Request received'), 20000)"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+  worker1:
+    image: alpine
+    container_name: worker1
+    command: sh -c "while true; do echo Worker 1 running; sleep 50; done;"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+  worker2:
+    image: alpine
+    container_name: worker2
+    command: sh -c "while true; do echo Worker 2 running; sleep 50; done;"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+  cache:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
